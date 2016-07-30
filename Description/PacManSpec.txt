@@ -1,0 +1,65 @@
+// Active characters
+1. Pac-Man - main character of the game:
+
+Description:
+    - uniqueTypeIdentifier
+    - shape
+    - position
+    - lives
+    - score
+	
+Abilities:
+    - Move (4 directions)
+    - Eat dots
+    - Can die 
+	
+----------------------------------------
+2. Ghost - main character that wants to catch the Pac-Man.
+It prevents Pac-Man to eat all dots.
+Usually there are at least two ghosts in the game.
+
+Description:
+    - uniqueTypeIdentifier
+	- shape
+	- position
+	- Frozen or Not
+Abilities:
+	- Move (4 directions) 
+	- Kill Pac-Man
+
+-----------------------------------------
+// Passive characters
+3. Dots - items that indicate how far Pac-Man from the win
+Description
+    - uniqueTypeIdentifier
+	- shape
+	- position 
+
+-----------------------------------------
+4. Obstacles - items that occupy some cells in the game area.
+Ghosts and Pac-Man cannot move through them. 
+Dots cannot appear on the cell where Obstacle exists.
+They cannot move. 
+From level to level they change their location
+Description:
+    - uniqueTypeIdentifier
+	- color
+	- shape
+	- position
+    
+------------------------------------------
+5. Cell - one item of the game field.
+Description:
+    - position (same as 2 dimension array coords)
+    - state (allowed uniqueTypeIdentifier's combination)
+Abilities:
+    - Set state (accepts the new state value and set the field)
+    - Get state of current cell
+    
+------------------------------------------
+6. Game field - multidimensional array of Cells 
+
+
+
+
+
