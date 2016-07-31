@@ -1,17 +1,27 @@
+//enums
+enum of Directions (left, right,up, down)
+enum of uniqueTypeIdentifiers (none, pacman, ghost, dot, obstacle)
+struct Position (int x, int y)
+
+
+
 // Active characters
 1. Pac-Man - main character of the game:
 
 Description:
-    - uniqueTypeIdentifier
-    - shape
-    - position
-    - lives
-    - score
+    - uniqueTypeIdentifier [typeof(uniqueTypeIdentifiers)]
+    - shape [char]
+    - position [typeof(Position)]
+    - lives [int]
+    - score [int]
 	
 Abilities:
     - Move (4 directions)
-    - Eat dots
+    public bool TryMove(Directions direction)   
+    - Eat dots 
+    public void IncreaseScore(int points)
     - Can die 
+    public bool TryGetNewLife()
 	
 ----------------------------------------
 2. Ghost - main character that wants to catch the Pac-Man.
@@ -19,7 +29,7 @@ It prevents Pac-Man to eat all dots.
 Usually there are at least two ghosts in the game.
 
 Description:
-    - uniqueTypeIdentifier
+        - uniqueTypeIdentifier
 	- shape
 	- position
 	- Frozen or Not
