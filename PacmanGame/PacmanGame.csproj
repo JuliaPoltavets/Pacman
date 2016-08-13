@@ -43,8 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataLayer\GetLevelData.cs" />
     <Compile Include="Model\Cell.cs" />
     <Compile Include="Model\Dot.cs" />
+    <Compile Include="Model\ExceptionTypes.cs" />
     <Compile Include="Model\GameField.cs" />
     <Compile Include="Model\Ghost.cs" />
     <Compile Include="Model\Level.cs" />
@@ -55,9 +57,13 @@
     <Compile Include="Model\UniqueTypeIdentifiers.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\ArrayExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataLayer\level1schema.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

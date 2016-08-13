@@ -35,12 +35,11 @@
         /// In case no available levels - pacman won the whole game
         /// </summary>
         /// <param name="levelId"></param>
-        /// <param name="height"></param>
-        /// <param name="width"></param>
-        public void LoadLevel(int levelId, int height, int width)
+        public void LoadLevel(int levelId)
         {
             // get initial set of dots and obstacles for the level
-            //
+            // set game area height and width accodringly
+            // init pacman and ghost in the initial positions for them
         }
 
         #endregion

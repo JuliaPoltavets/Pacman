@@ -2,7 +2,7 @@
 {
     public struct Position
     {
-        public short _x;
-        public short _y;
+        public int _x;
+        public int _y;
     }
 }
