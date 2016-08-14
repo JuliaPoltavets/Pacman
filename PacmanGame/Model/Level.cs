@@ -8,14 +8,15 @@ namespace PacmanGame.Model
         public Obstacle[] _obstacles;
         public Cell[,] _level;
         public int _levelHeight;
-        public int levelWidth;
+        public int _levelWidth;
 
         public void InitLevel(short levelId)
         {
-            InitLevelSize(levelId);
+            InitLevelSize(levelId, out _levelHeight, out _levelWidth);
             InitDotsData(levelId);
             InitObstaclesData(levelId);
-            _level = new Cell[height,width];
+            _level = new Cell[_levelHeight, _levelWidth];
+
             //logic to create all Cell objects with corresponding uniqieIdentifier
             foreach (Dot currentDot in _dots)
             {
@@ -40,9 +41,9 @@ namespace PacmanGame.Model
         /// Gets level heights and width from data layer
         /// </summary>
         /// <param name="levelId">unique level identifier for data layaer</param>
-        private void InitLevelSize(short levelId)
+        private void InitLevelSize(short levelId, out int heigth, out int width)
         {
-            throw new System.NotImplementedException();
+            PacmanGame.DataLayer.GetLevelData.GetLevelSize(levelId, out heigth, out width);
         }
 
         /// <summary>
@@ -53,16 +54,16 @@ namespace PacmanGame.Model
         /// <param name="levelId"></param>
         private void InitDotsData(short levelId)
         {
-            Position[] getDotsPositions = PacmanGame.DataLayer.GetLevelData.InitDotsPositions(levelId);
-            _dots = new Dot[getDotsPositions.Length];
+            Position[] dotPositions = PacmanGame.DataLayer.GetLevelData.InitDotsPositions(levelId);
+            _dots = new Dot[dotPositions.Length];
             for (int i = 0; i < _dots.Length; i++)
             {
                 Dot newDot = new Dot()
                 {
                     _characterId = UniqueTypeIdentifiers.Dot,
-                    _position = getDotsPositions[i]
+                    _position = dotPositions[i]
                 };
-                _dots = _dots.Add(newDot);
+                _dots[i] = newDot;
             }
         }
 
@@ -77,14 +78,14 @@ namespace PacmanGame.Model
         {
             Position[] getObstaclesPositions = PacmanGame.DataLayer.GetLevelData.InitObstaclesPositions(levelId);
             _obstacles = new Obstacle[getObstaclesPositions.Length];
-            for (int i = 0; i < _dots.Length; i++)
+            for (int i = 0; i < _obstacles.Length; i++)
             {
-                Obstacle obstacle = new Obstacle()
+                Obstacle newObstacle = new Obstacle()
                 {
                     _characterId = UniqueTypeIdentifiers.Obstacle,
                     _position = getObstaclesPositions[i]
                 };
-                _obstacles = _obstacles.Add(obstacle);
+                _obstacles[i] = newObstacle;
             }
         }
 

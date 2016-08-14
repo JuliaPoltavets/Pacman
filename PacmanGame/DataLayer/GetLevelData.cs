@@ -58,58 +58,50 @@ namespace PacmanGame.DataLayer
 
         public static bool GetLevelSize(short levelId, out int levelHeight, out int levelWidth )
         {
-            bool succeedToGetLevelData = false;
-            bool allRowsSame
+            bool succeedToGetLevelData = true;
             levelHeight = 0;
             levelWidth = 0;
+
             string[] levelData = System.IO.File.ReadAllLines(levelFilesLocation[levelId]);
-            if (levelData.Length > 0)
+            DataLayerOperationResult verificationResult = CheckIfLevelIsValid(levelData);
+
+            if (verificationResult != DataLayerOperationResult.Successful)
             {
-                succeedToGetLevelData = true;
+                succeedToGetLevelData = false;
             }
-            for (int i = 0; i < levelData.Length; i++)
+            else
             {
-                char[] getSymbolsSet = levelData[i].Trim().ToCharArray();
-                for (int j = 0; j < getSymbolsSet.Length; j++)
-                {
-                    if (getSymbolsSet[j] == _dotSymb)
-                    {
-                        Position dotPos = new Position() { _y = i, _x = j };
-                        dotsPositions = dotsPositions.Add(dotPos);
-                    }
-                }
+                levelHeight = levelData.Length;
+                levelWidth = levelData[0].Trim().Length;
             }
-            return dotsPositions;
+         
+            return succeedToGetLevelData;
         }
 
-        private static bool CheckIfLevelIsValid(string[] levelData, out DataLayerExceptions exception)
+        private static DataLayerOperationResult CheckIfLevelIsValid(string[] levelData)
         {
-            bool isValid = true;
-            exception = DataLayerExceptions.None;
+            DataLayerOperationResult exception = DataLayerOperationResult.Successful;
             if (levelData == null)
             {
-                isValid = false;
-                exception = DataLayerExceptions.FileWasNotFound;
+                exception = DataLayerOperationResult.FileWasNotFound;
             }
 
             if (levelData.Length == 0)
             {
-                isValid = false;
-                exception = DataLayerExceptions.LevelIsEmpty;
+                exception = DataLayerOperationResult.LevelIsEmpty;
             }
 
             int correctSymbCount = levelData[0].Trim().ToCharArray().Length;
             for (int i = 0; i < levelData.Length; i++)
             {
-                int currentSymbCount = levelData[i].Trim().ToCharArray().Length;
+                int currentSymbCount = levelData[i].Trim().Length;
                 if (correctSymbCount != currentSymbCount)
                 {
-                    isValid = false;
-                    exception = DataLayerExceptions.LevelFormatIsIncorrect;
+                    exception = DataLayerOperationResult.LevelFormatIsIncorrect;
                     break;
                 }
             }
-            return isValid;
+            return exception;
         }
     }
 }

@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataLayer\DataLayerOperationResult.cs" />
     <Compile Include="DataLayer\GetLevelData.cs" />
     <Compile Include="Model\Cell.cs" />
     <Compile Include="Model\Dot.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ArrayExtensions.cs" />
+    <Compile Include="Utilities\StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
