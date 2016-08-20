@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PacmanGame.Model;
 
 namespace PacmanGame
@@ -11,24 +7,34 @@ namespace PacmanGame
     {
         static void Main(string[] args)
         {
-            //var level = new Level();
-            //level.InitLevel(0);
-            //var k = level._level;
-            //for (int i = 0; i < level._levelHeight; i++)
-            //{
-            //    for (int j = 0; j < level._levelWidth; j++)
-            //    {
-            //        if (k[i, j]._characterId == UniqueTypeIdentifiers.Dot)
-            //        {
-            //            Console.Write(0);
-            //        }
-            //        else
-            //        {
-            //            Console.Write(1);
-            //        }
-            //    }
-            //    Console.WriteLine();
-            //}
+
+            GameField gf = new GameField();
+            gf.InitLevel(0, 1, 2);
+            Console.SetWindowSize(gf._currentLevel._levelWidth+1,gf._currentLevel._levelHeight);
+            for (int i = 0; i < gf._currentLevel._levelHeight; i++)
+            {
+                for (int j = 0; j < gf._currentLevel._levelWidth; j++)
+                {
+                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Dot)
+                    {
+                        Console.Write((char)183);
+                    }
+                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Pacman)
+                    {
+                        Console.Write("@");
+                    }
+                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Obstacle)
+                    {
+                        Console.Write((char)166);
+                    }
+                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Ghost)
+                    {
+                        Console.Write("8");
+                    }
+                }
+                gf.MovePacman(MoveDirections.Left);
+                Console.WriteLine();
+            }
 
         }
     }

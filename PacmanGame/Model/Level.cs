@@ -1,6 +1,4 @@
-﻿using PacmanGame.Utilities;
-
-namespace PacmanGame.Model
+﻿namespace PacmanGame.Model
 {
     public struct Level
     {
@@ -37,6 +35,20 @@ namespace PacmanGame.Model
                 };
             }
         }
+
+        public bool BelongsToLevel(Position position)
+        {
+            var isInLevelRange = true;
+            if ((position._x > _levelWidth - 1) || (position._x < 0))
+            {
+                isInLevelRange = false;
+            }
+            if ((position._y > _levelHeight - 1) || (position._y < 0))
+            {
+                isInLevelRange = false;
+            }
+            return isInLevelRange;
+        }
         /// <summary>
         /// Gets level heights and width from data layer
         /// </summary>
@@ -67,7 +79,6 @@ namespace PacmanGame.Model
             }
         }
 
-
         /// <summary>
         /// Reads data about particular level from the Data layer 
         /// Creats Array of Obstacle[] _obstacles
@@ -88,6 +99,5 @@ namespace PacmanGame.Model
                 _obstacles[i] = newObstacle;
             }
         }
-
     }
 }

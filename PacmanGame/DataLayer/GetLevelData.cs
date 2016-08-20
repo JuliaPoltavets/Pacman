@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using PacmanGame.Model;
+﻿using PacmanGame.Model;
 using PacmanGame.Utilities;
 
 namespace PacmanGame.DataLayer
@@ -13,6 +11,7 @@ namespace PacmanGame.DataLayer
         };
         const char _obstacleSymb = '1';
         const char _dotSymb = '0';
+
         /// <summary>
         /// Method returns the obstacles position for the particular level
         /// </summary>
@@ -20,40 +19,12 @@ namespace PacmanGame.DataLayer
         /// <returns></returns>
         public static Position[] InitObstaclesPositions(short levelId)
         {
-            Position[] obstaclesPositions = null;
-            string[] levelData = System.IO.File.ReadAllLines(levelFilesLocation[levelId]);
-            for(int i = 0; i < levelData.Length; i++)
-            {
-                char[] getSymbolsSet = levelData[i].Trim().ToCharArray();
-                for (int j = 0; j < getSymbolsSet.Length; j++)
-                {
-                    if (getSymbolsSet[j] == _obstacleSymb)
-                    {
-                        Position obPos = new Position() {_y = i, _x = j};
-                        obstaclesPositions = obstaclesPositions.Add(obPos);
-                    }
-                }
-            }
-            return obstaclesPositions;
+            return GetPositionsOfGameObjects(_obstacleSymb, levelId);
         }
 
         public static Position[] InitDotsPositions(short levelId)
         {
-            Position[] dotsPositions = null;
-            string[] levelData = System.IO.File.ReadAllLines(levelFilesLocation[levelId]);
-            for (int i = 0; i < levelData.Length; i++)
-            {
-                char[] getSymbolsSet = levelData[i].Trim().ToCharArray();
-                for (int j = 0; j < getSymbolsSet.Length; j++)
-                {
-                    if (getSymbolsSet[j] == _dotSymb)
-                    {
-                        Position dotPos = new Position() { _y = i, _x = j };
-                        dotsPositions = dotsPositions.Add(dotPos);
-                    }
-                }
-            }
-            return dotsPositions;
+            return GetPositionsOfGameObjects(_dotSymb, levelId);
         }
 
         public static bool GetLevelSize(short levelId, out int levelHeight, out int levelWidth )
@@ -76,6 +47,25 @@ namespace PacmanGame.DataLayer
             }
          
             return succeedToGetLevelData;
+        }
+
+        public static Position[] GetPositionsOfGameObjects(char symbol, short levelId)
+        {
+            Position[] heroPositions = null;
+            string[] levelData = System.IO.File.ReadAllLines(levelFilesLocation[levelId]);
+            for (int i = 0; i < levelData.Length; i++)
+            {
+                char[] getSymbolsSet = levelData[i].Trim().ToCharArray();
+                for (int j = 0; j < getSymbolsSet.Length; j++)
+                {
+                    if (getSymbolsSet[j] == symbol)
+                    {
+                        Position dotPos = new Position() { _y = i, _x = j };
+                        heroPositions = heroPositions.Add(dotPos);
+                    }
+                }
+            }
+            return heroPositions;
         }
 
         private static DataLayerOperationResult CheckIfLevelIsValid(string[] levelData)
