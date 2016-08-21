@@ -1,9 +1,13 @@
 ﻿namespace PacmanGame.Model
 {
-    public enum StepOperationResults
+    public enum StepOperationResult
     {
+        None = 0,
+        MoveAllowed = 1,
         MoveNotAllowed,
-        PacmanDied
-        
+        PacmanDied,
+        ValueScored,
+        PacmanWins,
+        GameOver
     }
 }

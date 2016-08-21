@@ -16,5 +16,10 @@
                 _y += step;
             }
         }
+
+        public bool Equals(Position otherPosition)
+        {
+            return ((_x == otherPosition._x) && (_y == otherPosition._y));
+        }
     }
 }

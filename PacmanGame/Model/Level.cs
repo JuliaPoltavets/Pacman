@@ -1,9 +1,14 @@
-﻿namespace PacmanGame.Model
+﻿using System;
+using PacmanGame.Utilities;
+
+namespace PacmanGame.Model
 {
     public struct Level
     {
-        public Dot[] _dots;
-        public Obstacle[] _obstacles;
+        private Dot[] _dots;
+        private Obstacle[] _obstacles;
+        private static Random _rnd = new Random();
+
         public Cell[,] _level;
         public int _levelHeight;
         public int _levelWidth;
@@ -36,6 +41,8 @@
             }
         }
 
+        public void 
+
         public bool BelongsToLevel(Position position)
         {
             var isInLevelRange = true;
@@ -49,6 +56,43 @@
             }
             return isInLevelRange;
         }
+
+        public UniqueTypeIdentifiers GetCharacterTypeInCell(Position cellPosition)
+        {
+            return _level[cellPosition._y, cellPosition._x]._characterId;
+        }
+
+        public Position GetRandomDotPosition()
+        {
+            int randomPosition = _rnd.Next(0, _dots.Length - 1);
+            return new Position()
+            {
+                _y = _dots[randomPosition]._position._y,
+                _x = _dots[randomPosition]._position._x
+            };
+        }
+
+        public bool TryChangeOccupantId(Position cellCoords, UniqueTypeIdentifiers newCharacterId)
+        {
+            bool newCharacterWasSet = false;
+            if (BelongsToLevel(cellCoords))
+            {
+                if ((GetCharacterTypeInCell(cellCoords) == UniqueTypeIdentifiers.Dot) ||
+                    ((newCharacterId & UniqueTypeIdentifiers.Dot) != UniqueTypeIdentifiers.Dot))
+                {
+                    _dots = _dots.RemoveDotByPosition(cellCoords);
+                }
+                _level[cellCoords._y, cellCoords._x]._characterId = newCharacterId;
+                newCharacterWasSet = true;
+            }
+            return newCharacterWasSet;
+        }
+
+        public bool CheckAvailableDots()
+        {
+            return _dots.Length > 0;
+        }
+
         /// <summary>
         /// Gets level heights and width from data layer
         /// </summary>

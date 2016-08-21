@@ -12,7 +12,7 @@
         /// <summary>
         /// specific for pacman set of properties
         /// </summary>
-        public byte _lives;
+        public short _lifes;
         public short _score;
 
         /// <summary>
@@ -36,21 +36,37 @@
         }
 
         /// <summary>
-        /// Returns current position of the pacman instance
+        /// Change current position of Pacman
         /// </summary>
         /// <returns></returns>
-        public int ReduceLives(short count)
+        public void SetCurrentPosition(Position newPosition)
         {
-            return _lives;
+            _position = newPosition;
         }
 
         /// <summary>
         /// Returns current position of the pacman instance
         /// </summary>
         /// <returns></returns>
-        public int IncreaseLives(short count)
+        public bool TryReduceLifes(short count)
         {
-            return _lives;
+            var isLifeReduced = false;
+            if (_lifes - count > 0)
+            {
+                isLifeReduced = true;
+                _lifes -= count;
+            }
+            return isLifeReduced;
+        }
+
+        public int IncreaseLifes(short count)
+        {
+            return _lifes;
+        }
+
+        public void IncreaseScore(short count)
+        {
+            _score += count;
         }
 
     }

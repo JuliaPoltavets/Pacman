@@ -32,7 +32,7 @@ namespace PacmanGame
                         Console.Write("8");
                     }
                 }
-                gf.MovePacman(MoveDirections.Left);
+                //gf.MovePacman(MoveDirections.Left);
                 Console.WriteLine();
             }
 

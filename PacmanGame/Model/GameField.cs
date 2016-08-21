@@ -5,6 +5,7 @@ namespace PacmanGame.Model
     public struct GameField
     {
         const int LIFE_COUNT = 3;
+        const int DOT_VALUE = 3;
         /// <summary>
         /// Main characters. Array is selected in case multiplayer extension
         /// </summary>
@@ -17,8 +18,6 @@ namespace PacmanGame.Model
         /// height of the playground
         /// </summary>
         public Level _currentLevel;
-
-        private static Random _rnd = new Random();
 
         #region Methods
 
@@ -34,22 +33,22 @@ namespace PacmanGame.Model
             _pacmans = new Pacman[playersCount];
             for (int i = 0; i < playersCount; i++)
             {
-                Position pacmanPosition = this.GetRandomDotPosition(level._dots);
+                Position pacmanPosition = level.GetRandomDotPosition();
                 Pacman newPacman = new Pacman()
                 {
-                    _lives = LIFE_COUNT,
+                    _lifes = LIFE_COUNT,
                     _characterId = UniqueTypeIdentifiers.Pacman,
                     _position = pacmanPosition,
                     _defaultPosition = pacmanPosition,
                     _score = 0
                 };
                 _pacmans[i] = newPacman;
-                level._level[newPacman._position._y,newPacman._position._x]._characterId = UniqueTypeIdentifiers.Pacman;
+                level.TryChangeOccupantId(pacmanPosition, UniqueTypeIdentifiers.Pacman);
             }
             _ghosts = new Ghost[ghostsCount];
             for (int i = 0; i < ghostsCount; i++)
             {
-                Position ghostPosition = this.GetRandomDotPosition(level._dots);
+                Position ghostPosition = level.GetRandomDotPosition();
                 Ghost newGhost = new Ghost()
                 {
                     _characterId = UniqueTypeIdentifiers.Ghost,
@@ -57,7 +56,7 @@ namespace PacmanGame.Model
                     _defaultPosition = ghostPosition,
                 };
                 _ghosts[i] = newGhost;
-                level._level[newGhost._position._y, newGhost._position._x]._characterId = UniqueTypeIdentifiers.Ghost;
+                level.TryChangeOccupantId(ghostPosition, UniqueTypeIdentifiers.Ghost);
             }
             _currentLevel = level;
         }
@@ -79,7 +78,6 @@ namespace PacmanGame.Model
                     if (_currentLevel.BelongsToLevel(nextPosition))
                     {
                         UniqueTypeIdentifiers resultantCharacter;
-                        var nextCellElements = GetCharacterTypeInCell(nextPosition) | UniqueTypeIdentifiers.Pacman;
                         
                         currentPacman._position.ChangePosition(direction, 1);
                     }
@@ -96,34 +94,48 @@ namespace PacmanGame.Model
             }
         }
 
-        public Position GetRandomDotPosition(Dot[] positionArray)
+        private StepOperationResult ResolveNextCellCharacters(UniqueTypeIdentifiers nextCellChar,
+            UniqueTypeIdentifiers activeChar, Position cellCoords, int playerId = 0)
         {
-            int randomPosition = _rnd.Next(0, positionArray.Length - 1);
-            return new Position()
-            {
-                _y = positionArray[randomPosition]._position._y,
-                _x = positionArray[randomPosition]._position._x
-            };
-        }
+            StepOperationResult revolveOperationResult = StepOperationResult.None;
 
-        private UniqueTypeIdentifiers GetCharacterTypeInCell(Position cellPosition)
-        {
-            return _currentLevel._level[cellPosition._y, cellPosition._x]._characterId;
-        }
-
-        private StepOperationResults ResolveNextCellCharacters(UniqueTypeIdentifiers nextCellChar,
-            UniqueTypeIdentifiers activeChar, out UniqueTypeIdentifiers resolvedIds)
-        {
-            resolvedIds = UniqueTypeIdentifiers.EmptyCell;
             if (activeChar == UniqueTypeIdentifiers.Pacman)
             {
                 if ((nextCellChar & UniqueTypeIdentifiers.Ghost) == UniqueTypeIdentifiers.Ghost)
                 {
-                    //if possible to reduce pacman life du this, call for level init, score was not influenced
+                    //if possible to reduce pacman life do this, call for level init, score was not influenced
+                    if (_pacmans[playerId].TryReduceLifes(1))
+                    {
+                        this.RestartLevel();
+                        _currentLevel.TryChangeOccupantId(cellCoords, UniqueTypeIdentifiers.Ghost | UniqueTypeIdentifiers.Pacman);
+                        revolveOperationResult = StepOperationResult.PacmanDied;
+                    }
+                    else
+                    {
+                        revolveOperationResult = StepOperationResult.GameOver;
+                    }
+                    
                 }
-                if ((nextCellChar & UniqueTypeIdentifiers.Dot) == UniqueTypeIdentifiers.Dot)
+                //if next cell is dot without ghost
+                if (((nextCellChar & UniqueTypeIdentifiers.Dot) == UniqueTypeIdentifiers.Dot) && (nextCellChar & UniqueTypeIdentifiers.Ghost) != UniqueTypeIdentifiers.Ghost)
                 {
-                    //increase the score of pacman, change field to pacman & emptycell
+                    //increase the score of pacman,check whether game field has more dots, change field to pacman & emptycell
+                    _pacmans[playerId].IncreaseScore(DOT_VALUE);
+                    _currentLevel.TryChangeOccupantId(cellCoords,
+                        UniqueTypeIdentifiers.Pacman | UniqueTypeIdentifiers.EmptyCell);
+                    revolveOperationResult = StepOperationResult.ValueScored;
+                    if (!_currentLevel.CheckAvailableDots())
+                    {
+                        revolveOperationResult = StepOperationResult.PacmanWins;
+                    }
+                }
+                if ((nextCellChar & UniqueTypeIdentifiers.Obstacle) == UniqueTypeIdentifiers.Obstacle)
+                {
+                    revolveOperationResult = StepOperationResult.MoveNotAllowed;
+                }
+                if ((nextCellChar & UniqueTypeIdentifiers.EmptyCell) == UniqueTypeIdentifiers.EmptyCell)
+                {
+                    revolveOperationResult = StepOperationResult.MoveAllowed;
                 }
             }
             if (activeChar == UniqueTypeIdentifiers.Ghost)
@@ -132,8 +144,39 @@ namespace PacmanGame.Model
                 {
                     //if possible to reduce pacman life du this, call for level init, score was not influenced
                 }
+                if ((nextCellChar & UniqueTypeIdentifiers.Ghost) == UniqueTypeIdentifiers.Ghost)
+                {
+                    //both ghosts possible to be kept together on same cell
+                }
+                if ((nextCellChar & UniqueTypeIdentifiers.Obstacle) == UniqueTypeIdentifiers.Obstacle)
+                {
+                    // not allowed to move there
+                }
+                if ((nextCellChar & UniqueTypeIdentifiers.EmptyCell) == UniqueTypeIdentifiers.EmptyCell)
+                {
+                    // not allowed to move there
+                }
             }
-            return StepOperationResults.MoveNotAllowed;
+
+            return StepOperationResult.MoveNotAllowed;
+        }
+
+        private void RestartLevel()
+        {
+            foreach (Pacman player in _pacmans)
+            {
+                player.SetCurrentPosition(player._defaultPosition);
+            }
+            foreach (Ghost gh in _ghosts)
+            {
+                gh.SetCurrentPosition(gh._defaultPosition);
+            }
+        }
+
+        private bool CheckIfLevelPassed()
+        {
+            bool allDotsAreCollected = false;
+            return allDotsAreCollected;
         }
 
         #endregion

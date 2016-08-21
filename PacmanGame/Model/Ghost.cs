@@ -9,5 +9,10 @@
 
         public Position _defaultPosition;
         public UniqueTypeIdentifiers _characterId;
+
+        public void SetCurrentPosition(Position newPosition)
+        {
+            _position = newPosition;
+        }
     }
 }
