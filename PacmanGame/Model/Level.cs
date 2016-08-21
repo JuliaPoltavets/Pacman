@@ -41,8 +41,6 @@ namespace PacmanGame.Model
             }
         }
 
-        public void 
-
         public bool BelongsToLevel(Position position)
         {
             var isInLevelRange = true;
