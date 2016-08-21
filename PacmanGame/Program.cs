@@ -32,9 +32,81 @@ namespace PacmanGame
                         Console.Write("8");
                     }
                 }
-                //gf.MovePacman(MoveDirections.Left);
                 Console.WriteLine();
             }
+            gf.MovePacman(MoveDirections.Left);
+            for (int i = 0; i < gf._currentLevel._levelHeight; i++)
+            {
+                for (int j = 0; j < gf._currentLevel._levelWidth; j++)
+                {
+                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Dot)
+                    {
+                        Console.Write((char)183);
+                    }
+                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Pacman)
+                    {
+                        Console.Write("@");
+                    }
+                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Obstacle)
+                    {
+                        Console.Write((char)166);
+                    }
+                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Ghost)
+                    {
+                        Console.Write("8");
+                    }
+                }
+                Console.WriteLine();
+            }
+            gf.MovePacman(MoveDirections.Left);
+            for (int i = 0; i < gf._currentLevel._levelHeight; i++)
+            {
+                for (int j = 0; j < gf._currentLevel._levelWidth; j++)
+                {
+                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Dot)
+                    {
+                        Console.Write((char)183);
+                    }
+                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Pacman)
+                    {
+                        Console.Write("@");
+                    }
+                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Obstacle)
+                    {
+                        Console.Write((char)166);
+                    }
+                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Ghost)
+                    {
+                        Console.Write("8");
+                    }
+                }
+                Console.WriteLine();
+            }
+            gf.MovePacman(MoveDirections.Left);
+            for (int i = 0; i < gf._currentLevel._levelHeight; i++)
+            {
+                for (int j = 0; j < gf._currentLevel._levelWidth; j++)
+                {
+                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Dot)
+                    {
+                        Console.Write((char)183);
+                    }
+                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Pacman)
+                    {
+                        Console.Write("@");
+                    }
+                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Obstacle)
+                    {
+                        Console.Write((char)166);
+                    }
+                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Ghost)
+                    {
+                        Console.Write("8");
+                    }
+                }
+                Console.WriteLine();
+            }
+
 
         }
     }

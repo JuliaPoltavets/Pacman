@@ -75,7 +75,7 @@ namespace PacmanGame.Model
             bool newCharacterWasSet = false;
             if (BelongsToLevel(cellCoords))
             {
-                if ((GetCharacterTypeInCell(cellCoords) == UniqueTypeIdentifiers.Dot) ||
+                if ((GetCharacterTypeInCell(cellCoords) == UniqueTypeIdentifiers.Dot) &&
                     ((newCharacterId & UniqueTypeIdentifiers.Dot) != UniqueTypeIdentifiers.Dot))
                 {
                     _dots = _dots.RemoveDotByPosition(cellCoords);
