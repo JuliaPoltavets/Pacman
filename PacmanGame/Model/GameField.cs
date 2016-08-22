@@ -69,29 +69,12 @@ namespace PacmanGame.Model
         public void MovePacman(MoveDirections direction, int playerId = 0)
         {
             var currentPacman = _pacmans[playerId];
-            switch (direction)
-            {
-                case MoveDirections.Left:
-                    Position nextPosition = new Position
-                    {
-                        _y = currentPacman._position._y,
-                        _x = currentPacman._position._x - 1
-                    };
-                    if (_currentLevel.BelongsToLevel(nextPosition))
-                    {
-                        StepOperationResult stepResult = ResolveNextCellCharacters(nextPosition, UniqueTypeIdentifiers.Pacman, currentPacman._position, playerId);
-                        
-                    }
+            StepOperationResult stepResult;
+            Position nextPosition = this.CalculateNextPosition(direction, currentPacman._position);
 
-                    break;
-                case MoveDirections.Right:
-                    break;
-                case MoveDirections.Up:
-                    break;
-                case MoveDirections.Down:
-                    break;
-                default:
-                    break;
+            if (_currentLevel.BelongsToLevel(nextPosition))
+            {
+                stepResult = ResolveNextCellCharacters(nextPosition, UniqueTypeIdentifiers.Pacman, currentPacman._position, playerId);
             }
         }
 
@@ -202,6 +185,45 @@ namespace PacmanGame.Model
         {
             bool allDotsAreCollected = false;
             return allDotsAreCollected;
+        }
+
+        private Position CalculateNextPosition(MoveDirections direction, Position currentPosition, int step = 1)
+        {
+            var nextPosition = new Position();
+            switch (direction)
+            {
+                case MoveDirections.Left:
+                    nextPosition = new Position
+                    {
+                        _y = currentPosition._y,
+                        _x = currentPosition._x - step
+                    };
+                    break;
+                case MoveDirections.Right:
+                    nextPosition = new Position
+                    {
+                        _y = currentPosition._y,
+                        _x = currentPosition._x + step
+                    };
+                    break;
+                case MoveDirections.Up:
+                    nextPosition = new Position
+                    {
+                        _y = currentPosition._y - step,
+                        _x = currentPosition._x
+                    };
+                    break;
+                case MoveDirections.Down:
+                    nextPosition = new Position
+                    {
+                        _y = currentPosition._y + step,
+                        _x = currentPosition._x
+                    };
+                    break;
+                default:
+                    break;
+            }
+            return nextPosition;
         }
 
         #endregion

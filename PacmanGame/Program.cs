@@ -39,19 +39,54 @@ namespace PacmanGame
             {
                 for (int j = 0; j < gf._currentLevel._levelWidth; j++)
                 {
-                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Dot)
+                    var currentCellCharId = gf._currentLevel._level[i, j]._characterId;
+                    if (currentCellCharId  == UniqueTypeIdentifiers.Dot)
                     {
                         Console.Write((char)183);
                     }
-                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Pacman)
+                    if (currentCellCharId == UniqueTypeIdentifiers.EmptyCell)
+                    {
+                        Console.Write(' ');
+                    }
+                    if ((currentCellCharId & UniqueTypeIdentifiers.Pacman) == UniqueTypeIdentifiers.Pacman)
                     {
                         Console.Write("@");
                     }
-                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Obstacle)
+                    if (currentCellCharId == UniqueTypeIdentifiers.Obstacle)
                     {
                         Console.Write((char)166);
                     }
-                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Ghost)
+                    if ((currentCellCharId & UniqueTypeIdentifiers.Ghost) == UniqueTypeIdentifiers.Ghost)
+                    {
+                        Console.Write("8");
+                    }
+
+                }
+                Console.WriteLine();
+            }
+            gf.MovePacman(MoveDirections.Left);
+            for (int i = 0; i < gf._currentLevel._levelHeight; i++)
+            {
+                for (int j = 0; j < gf._currentLevel._levelWidth; j++)
+                {
+                    var currentCellCharId = gf._currentLevel._level[i, j]._characterId;
+                    if (currentCellCharId == UniqueTypeIdentifiers.Dot)
+                    {
+                        Console.Write((char)183);
+                    }
+                    if (currentCellCharId == UniqueTypeIdentifiers.EmptyCell)
+                    {
+                        Console.Write(' ');
+                    }
+                    if ((currentCellCharId & UniqueTypeIdentifiers.Pacman) == UniqueTypeIdentifiers.Pacman)
+                    {
+                        Console.Write("@");
+                    }
+                    if (currentCellCharId == UniqueTypeIdentifiers.Obstacle)
+                    {
+                        Console.Write((char)166);
+                    }
+                    if ((currentCellCharId & UniqueTypeIdentifiers.Ghost) == UniqueTypeIdentifiers.Ghost)
                     {
                         Console.Write("8");
                     }
@@ -63,43 +98,24 @@ namespace PacmanGame
             {
                 for (int j = 0; j < gf._currentLevel._levelWidth; j++)
                 {
-                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Dot)
+                    var currentCellCharId = gf._currentLevel._level[i, j]._characterId;
+                    if (currentCellCharId == UniqueTypeIdentifiers.Dot)
                     {
                         Console.Write((char)183);
                     }
-                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Pacman)
+                    if (currentCellCharId == UniqueTypeIdentifiers.EmptyCell)
+                    {
+                        Console.Write(' ');
+                    }
+                    if ((currentCellCharId & UniqueTypeIdentifiers.Pacman) == UniqueTypeIdentifiers.Pacman)
                     {
                         Console.Write("@");
                     }
-                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Obstacle)
+                    if (currentCellCharId == UniqueTypeIdentifiers.Obstacle)
                     {
                         Console.Write((char)166);
                     }
-                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Ghost)
-                    {
-                        Console.Write("8");
-                    }
-                }
-                Console.WriteLine();
-            }
-            gf.MovePacman(MoveDirections.Left);
-            for (int i = 0; i < gf._currentLevel._levelHeight; i++)
-            {
-                for (int j = 0; j < gf._currentLevel._levelWidth; j++)
-                {
-                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Dot)
-                    {
-                        Console.Write((char)183);
-                    }
-                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Pacman)
-                    {
-                        Console.Write("@");
-                    }
-                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Obstacle)
-                    {
-                        Console.Write((char)166);
-                    }
-                    if (gf._currentLevel._level[i, j]._characterId == UniqueTypeIdentifiers.Ghost)
+                    if ((currentCellCharId & UniqueTypeIdentifiers.Ghost) == UniqueTypeIdentifiers.Ghost)
                     {
                         Console.Write("8");
                     }
