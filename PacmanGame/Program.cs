@@ -9,7 +9,7 @@ namespace PacmanGame
         {
 
             GameField gf = new GameField();
-            gf.InitLevel(0, 1, 2);
+            gf.InitLevel(0, 1, 70);
             Console.SetWindowSize(gf._currentLevel._levelWidth+1,gf._currentLevel._levelHeight);
             for (int i = 0; i < gf._currentLevel._levelHeight; i++)
             {
@@ -44,7 +44,7 @@ namespace PacmanGame
                     {
                         Console.Write((char)183);
                     }
-                    if (currentCellCharId == UniqueTypeIdentifiers.EmptyCell)
+                    if (currentCellCharId == UniqueTypeIdentifiers.EmptyCell || currentCellCharId == UniqueTypeIdentifiers.None)
                     {
                         Console.Write(' ');
                     }
@@ -74,7 +74,7 @@ namespace PacmanGame
                     {
                         Console.Write((char)183);
                     }
-                    if (currentCellCharId == UniqueTypeIdentifiers.EmptyCell)
+                    if (currentCellCharId == UniqueTypeIdentifiers.EmptyCell || currentCellCharId == UniqueTypeIdentifiers.None)
                     {
                         Console.Write(' ');
                     }
@@ -103,7 +103,7 @@ namespace PacmanGame
                     {
                         Console.Write((char)183);
                     }
-                    if (currentCellCharId == UniqueTypeIdentifiers.EmptyCell)
+                    if (currentCellCharId == UniqueTypeIdentifiers.EmptyCell || currentCellCharId == UniqueTypeIdentifiers.None)
                     {
                         Console.Write(' ');
                     }
