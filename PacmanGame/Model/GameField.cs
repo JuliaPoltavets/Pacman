@@ -153,18 +153,30 @@ namespace PacmanGame.Model
                 if ((nextCellChar & UniqueTypeIdentifiers.Pacman) == UniqueTypeIdentifiers.Pacman)
                 {
                     //if possible to reduce pacman life du this, call for level init, score was not influenced
+                    revolveOperationResult = StepOperationResult.PacmanDied;
                 }
                 if ((nextCellChar & UniqueTypeIdentifiers.Ghost) == UniqueTypeIdentifiers.Ghost)
                 {
                     //both ghosts possible to be kept together on same cell
+                    if (_currentLevel.TryChangeOccupantId(nextPosition, nextCellChar | UniqueTypeIdentifiers.Ghost))
+                    {
+                        _currentLevel.TryChangeOccupantId(currentPosition, currentCellChar & ~UniqueTypeIdentifiers.Ghost);
+                    }
+                    revolveOperationResult = StepOperationResult.MoveAllowed;
                 }
                 if ((nextCellChar & UniqueTypeIdentifiers.Obstacle) == UniqueTypeIdentifiers.Obstacle)
                 {
                     // not allowed to move there
+                    revolveOperationResult = StepOperationResult.MoveNotAllowed;
                 }
-                if ((nextCellChar & UniqueTypeIdentifiers.EmptyCell) == UniqueTypeIdentifiers.EmptyCell)
+                if ((nextCellChar & UniqueTypeIdentifiers.EmptyCell) == UniqueTypeIdentifiers.EmptyCell 
+                    && (nextCellChar & UniqueTypeIdentifiers.Pacman) != UniqueTypeIdentifiers.Pacman)
                 {
-                    // not allowed to move there
+                    if (_currentLevel.TryChangeOccupantId(nextPosition, nextCellChar | UniqueTypeIdentifiers.Ghost))
+                    {
+                        _currentLevel.TryChangeOccupantId(currentPosition, currentCellChar & ~UniqueTypeIdentifiers.Ghost);
+                    }
+                    revolveOperationResult = StepOperationResult.MoveAllowed;
                 }
             }
 

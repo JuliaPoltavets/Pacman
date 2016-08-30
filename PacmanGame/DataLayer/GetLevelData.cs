@@ -7,7 +7,8 @@ namespace PacmanGame.DataLayer
     {
         private static string[] levelFilesLocation = new[]
         {
-            @"C:\Education\pacman\PacmanGame\Levels\1_level.txt"
+            @"C:\Education\pacman\PacmanGame\Levels\1_level.txt",
+            @"C:\Education\pacman\PacmanGame\Levels\2_level.txt"
         };
         const char _obstacleSymb = '1';
         const char _dotSymb = '0';

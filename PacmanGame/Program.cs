@@ -9,7 +9,7 @@ namespace PacmanGame
         {
 
             GameField gf = new GameField();
-            gf.InitLevel(0, 1, 70);
+            gf.InitLevel(1, 1, 1);
             Console.SetWindowSize(gf._currentLevel._levelWidth+1,gf._currentLevel._levelHeight);
             for (int i = 0; i < gf._currentLevel._levelHeight; i++)
             {
@@ -64,7 +64,7 @@ namespace PacmanGame
                 }
                 Console.WriteLine();
             }
-            gf.MovePacman(MoveDirections.Left);
+            gf.MovePacman(MoveDirections.Right);
             for (int i = 0; i < gf._currentLevel._levelHeight; i++)
             {
                 for (int j = 0; j < gf._currentLevel._levelWidth; j++)
