@@ -34,7 +34,7 @@ namespace PacmanGame
                 }
                 Console.WriteLine();
             }
-            gf.MovePacman(MoveDirections.Left);
+            gf.MoveCharacter(MoveDirections.Left, UniqueTypeIdentifiers.Pacman, 0);
             for (int i = 0; i < gf._currentLevel._levelHeight; i++)
             {
                 for (int j = 0; j < gf._currentLevel._levelWidth; j++)
@@ -64,7 +64,7 @@ namespace PacmanGame
                 }
                 Console.WriteLine();
             }
-            gf.MovePacman(MoveDirections.Right);
+            gf.MoveCharacter(MoveDirections.Right, UniqueTypeIdentifiers.Pacman, 0);
             for (int i = 0; i < gf._currentLevel._levelHeight; i++)
             {
                 for (int j = 0; j < gf._currentLevel._levelWidth; j++)
@@ -93,7 +93,7 @@ namespace PacmanGame
                 }
                 Console.WriteLine();
             }
-            gf.MovePacman(MoveDirections.Left);
+            gf.MoveCharacter(MoveDirections.Left, UniqueTypeIdentifiers.Pacman, 0);
             for (int i = 0; i < gf._currentLevel._levelHeight; i++)
             {
                 for (int j = 0; j < gf._currentLevel._levelWidth; j++)
