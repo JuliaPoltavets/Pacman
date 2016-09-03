@@ -170,7 +170,7 @@ namespace PacmanGame.Model
             {
                 if (_currentLevel.TryChangeOccupantId(nextPosition, nextCellChar | UniqueTypeIdentifiers.Ghost))
                 {
-                    _currentLevel.TryChangeOccupantId(currentPosition, currentCellChar & ~UniqueTypeIdentifiers.Ghost);
+                    _currentLevel.TryChangeOccupantId(currentPosition, currentCellChar & ~UniqueTypeIdentifiers.Ghost); //Review (cell with problem)
                 }
                 revolveOperationResult = StepOperationResult.MoveAllowed;
             }
