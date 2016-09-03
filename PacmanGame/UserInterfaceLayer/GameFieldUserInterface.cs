@@ -39,16 +39,27 @@ namespace PacmanGame.UserInterfaceLayer
             {
                 result = _gameField.MoveCharacter(MoveDirections.Up, UniqueTypeIdentifiers.Pacman, playerId);
             }
-            if (result == StepOperationResult.GameOver || result == StepOperationResult.PacmanWins || result == StepOperationResult.PacmanDied)
+            if (result == StepOperationResult.GameOver || result == StepOperationResult.PacmanWins)
             {
+                return;
+            }
+            if (result == StepOperationResult.PacmanDied)
+            {
+                PrintGameField(_gameField._currentLevel);
+
                 return;
             }
 
             for (int ghostId = 0; ghostId < _ghostCount; ghostId++)
             {
                 result = _gameField.MoveCharacter(_defaultGhostDirection, UniqueTypeIdentifiers.Ghost, ghostId);
-                if (result == StepOperationResult.GameOver || result == StepOperationResult.PacmanWins || result == StepOperationResult.PacmanDied)
+                if (result == StepOperationResult.GameOver || result == StepOperationResult.PacmanWins)
                 {
+                    return;
+                }
+                if (result == StepOperationResult.PacmanDied)
+                {
+                    PrintGameField(_gameField._currentLevel);
                     return;
                 }
                 if (result == StepOperationResult.MoveNotAllowed)

@@ -224,25 +224,25 @@ namespace PacmanGame.Model
 
         private void RestartLevel()
         {
-            foreach (Pacman player in _pacmans)
+            for (int pacmanId = 0; pacmanId < _ghosts.Length; pacmanId++)
             {
-                UniqueTypeIdentifiers currentCellOccupantIds = _currentLevel.GetCharacterTypeInCell(player._position);
-                if (!player._defaultPosition.Equals(player._position))
+                UniqueTypeIdentifiers currentCellOccupantIds = _currentLevel.GetCharacterTypeInCell(_pacmans[pacmanId]._position);
+                if (!_pacmans[pacmanId]._defaultPosition.Equals(_pacmans[pacmanId]._position))
                 {
-                    _currentLevel.TryChangeOccupantId(player._position, (currentCellOccupantIds & ~UniqueTypeIdentifiers.Pacman) & ~UniqueTypeIdentifiers.Ghost);
+                    _currentLevel.TryChangeOccupantId(_pacmans[pacmanId]._position, (currentCellOccupantIds & ~UniqueTypeIdentifiers.Pacman) & ~UniqueTypeIdentifiers.Ghost);
                 }
-                player.SetCurrentPosition(player._defaultPosition);
-                _currentLevel.TryChangeOccupantId(player._position, UniqueTypeIdentifiers.Pacman);
+                _pacmans[pacmanId]._position = _pacmans[pacmanId]._defaultPosition;
+                _currentLevel.TryChangeOccupantId(_pacmans[pacmanId]._position, UniqueTypeIdentifiers.Pacman);
             }
-            foreach (Ghost gh in _ghosts)
+            for (int ghostId = 0; ghostId < _ghosts.Length; ghostId++)
             {
-                UniqueTypeIdentifiers currentCellOccupantIds = _currentLevel.GetCharacterTypeInCell(gh._position);
-                if (!gh._defaultPosition.Equals(gh._position))
+                UniqueTypeIdentifiers currentCellOccupantIds = _currentLevel.GetCharacterTypeInCell(_ghosts[ghostId]._position);
+                if (!_ghosts[ghostId]._defaultPosition.Equals(_ghosts[ghostId]._position))
                 {
-                    _currentLevel.TryChangeOccupantId(gh._position, (currentCellOccupantIds & ~UniqueTypeIdentifiers.Pacman) & ~UniqueTypeIdentifiers.Ghost);
+                    _currentLevel.TryChangeOccupantId(_ghosts[ghostId]._position, (currentCellOccupantIds & ~UniqueTypeIdentifiers.Pacman) & ~UniqueTypeIdentifiers.Ghost);
                 }
-                gh.SetCurrentPosition(gh._defaultPosition);
-                _currentLevel.TryChangeOccupantId(gh._position, UniqueTypeIdentifiers.Ghost);
+                _ghosts[ghostId]._position = _ghosts[ghostId]._defaultPosition;
+                _currentLevel.TryChangeOccupantId(_ghosts[ghostId]._position, UniqueTypeIdentifiers.Ghost);
             }
         }
 

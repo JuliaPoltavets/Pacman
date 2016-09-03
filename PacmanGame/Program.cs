@@ -26,8 +26,7 @@ namespace PacmanGame
                         gf.MakeStep(out result);
                     }
                     if (result == StepOperationResult.GameOver 
-                        || result == StepOperationResult.PacmanWins
-                        || result == StepOperationResult.PacmanDied)
+                        || result == StepOperationResult.PacmanWins)
                     {
                         isCurrentGameOver = true;
                         break;
