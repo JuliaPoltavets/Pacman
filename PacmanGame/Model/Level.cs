@@ -40,7 +40,7 @@ namespace PacmanGame.Model
                 };
             }
         }
-
+        
         public bool BelongsToLevel(Position position)
         {
             var isInLevelRange = true;

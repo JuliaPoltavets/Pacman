@@ -24,6 +24,25 @@ namespace PacmanGame.Utilities
             }
             return returnArray;
         }
+
+        public static MoveDirections[] Add(this MoveDirections[] coordsArray, MoveDirections direction)
+        {
+            MoveDirections[] returnArray;
+            if (coordsArray == null)
+            {
+                returnArray = new[]
+                {
+                    direction
+                };
+            }
+            else
+            {
+                returnArray = new MoveDirections[coordsArray.Length + 1];
+                Array.Copy(coordsArray, 0, returnArray, 0, coordsArray.Length);
+                returnArray[returnArray.Length - 1] = direction;
+            }
+            return returnArray;
+        }
         public static Dot[] Add(this Dot[] coordsArray, Dot newPosition)
         {
             Dot[] returnArray;
@@ -79,7 +98,7 @@ namespace PacmanGame.Utilities
         //            Array.Copy(_students, stIndex + 1, updatedGroup, stIndex, (_students.Length - 1) - stIndex);
         //            _students = updatedGroup;
         //        }
-                
+
         //        returnArray[returnArray.Length - 1] = newPosition;
         //    }
         //    return returnArray;
