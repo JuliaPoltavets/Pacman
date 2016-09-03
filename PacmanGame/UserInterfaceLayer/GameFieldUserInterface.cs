@@ -6,42 +6,59 @@ namespace PacmanGame.UserInterfaceLayer
     public class GameFieldUserInterface
     {
         private GameField _gameField;
-        private int _speed;
+        private readonly int _speed;
+        private readonly int _ghostCount;
+        private MoveDirections _defaultGhostDirection = MoveDirections.Up;
 
         public GameFieldUserInterface(short levelId, int speed, int ghostCount, int playerCount)
         {
+            _speed = speed;
+            _ghostCount = ghostCount;
             _gameField = new GameField();
             _gameField.InitLevel(levelId, playerCount, ghostCount);
-            _speed = speed;
+            PrintGameField(_gameField._currentLevel);
         }
 
-        public int Run()
+        public void MakeStep(out StepOperationResult result, ConsoleKey key = ConsoleKey.LeftArrow, int playerId = 0)
         {
-            Console.SetWindowSize(_gameField._currentLevel._levelWidth + 1, _gameField._currentLevel._levelHeight);
-            for (int i = 0; i < _gameField._currentLevel._levelHeight; i++)
+            result = StepOperationResult.None;
+
+            if (key == ConsoleKey.LeftArrow)
             {
-                GameFieldUserInterface.PrintFieldLine(_gameField._currentLevel, i);
+                result = _gameField.MoveCharacter(MoveDirections.Left, UniqueTypeIdentifiers.Pacman, playerId);
             }
-            System.Threading.Thread.Sleep(_speed);
-            _gameField.MoveCharacter(MoveDirections.Left, UniqueTypeIdentifiers.Pacman, 0);
-            System.Threading.Thread.Sleep(_speed);
-            for (int i = 0; i < _gameField._currentLevel._levelHeight; i++)
+            if (key == ConsoleKey.RightArrow)
             {
-                GameFieldUserInterface.PrintFieldLine(_gameField._currentLevel, i);
+                result = _gameField.MoveCharacter(MoveDirections.Right, UniqueTypeIdentifiers.Pacman, playerId);
             }
-            _gameField.MoveCharacter(MoveDirections.Right, UniqueTypeIdentifiers.Pacman, 0);
-            System.Threading.Thread.Sleep(_speed);
-            for (int i = 0; i < _gameField._currentLevel._levelHeight; i++)
+            if (key == ConsoleKey.DownArrow)
             {
-                GameFieldUserInterface.PrintFieldLine(_gameField._currentLevel, i);
+                result = _gameField.MoveCharacter(MoveDirections.Down, UniqueTypeIdentifiers.Pacman, playerId);
             }
-            _gameField.MoveCharacter(MoveDirections.Left, UniqueTypeIdentifiers.Pacman, 0);
-            System.Threading.Thread.Sleep(_speed);
-            for (int i = 0; i < _gameField._currentLevel._levelHeight; i++)
+            if (key == ConsoleKey.UpArrow)
             {
-                GameFieldUserInterface.PrintFieldLine(_gameField._currentLevel, i);
+                result = _gameField.MoveCharacter(MoveDirections.Up, UniqueTypeIdentifiers.Pacman, playerId);
             }
-            return 0;
+            if (result == StepOperationResult.GameOver || result == StepOperationResult.PacmanWins || result == StepOperationResult.PacmanDied)
+            {
+                return;
+            }
+
+            for (int ghostId = 0; ghostId < _ghostCount; ghostId++)
+            {
+                result = _gameField.MoveCharacter(_defaultGhostDirection, UniqueTypeIdentifiers.Ghost, ghostId);
+                if (result == StepOperationResult.GameOver || result == StepOperationResult.PacmanWins || result == StepOperationResult.PacmanDied)
+                {
+                    return;
+                }
+                if (result == StepOperationResult.MoveNotAllowed)
+                {
+                    _defaultGhostDirection = _gameField.ChangeGhostDirection(ghostId);
+                }
+            }
+            PrintGameField(_gameField._currentLevel);
+            System.Threading.Thread.Sleep(_speed);
+
         }
 
 
