@@ -8,6 +8,7 @@ namespace PacmanGame
     {
         static void Main(string[] args)
         {
+            GameFieldUserInterface.GetInitialSettingsFromUser();
             GameFieldUserInterface.StartGame();
         }
     }

@@ -1,10 +1,14 @@
 ﻿using System;
+using PacmanGame.DataLayer;
 using PacmanGame.Model;
 
 namespace PacmanGame.UserInterfaceLayer
 {
     public class GameFieldUserInterface
     {
+        const int DEFAULT_CONSOLE_WIDTH = 80;
+        const int DEFAULT_CONSOLE_HEIGHT = 25;
+
         private static GameField _gameField;
         private static int _speed;
         private static int _ghostCount;
@@ -12,14 +16,54 @@ namespace PacmanGame.UserInterfaceLayer
         private static short _levelId;
         private static MoveDirections _defaultGhostDirection = MoveDirections.Up;
 
+        public static void GetInitialSettingsFromUser()
+        {
+            Console.SetWindowSize(DEFAULT_CONSOLE_WIDTH, DEFAULT_CONSOLE_HEIGHT);
+            bool isLevelSelected = false;
+            do
+            {
+                Console.WriteLine("Please select level:");
+                string[] levelsList = GetLevelData.GetAvailableLevels();
+                for (int levelIndex = 0; levelIndex < levelsList.Length; levelIndex++)
+                {
+                    Console.WriteLine(levelIndex + ": " + levelsList[levelIndex]);
+                }
+                string intupLevelId = Console.ReadLine();
+                if (short.TryParse(intupLevelId, out _levelId) && _levelId < levelsList.Length)
+                {
+                    isLevelSelected = true;
+                }
+            } while (!isLevelSelected);
+
+            bool isGhostCountSelected = false;
+            do
+            {
+                Console.WriteLine("Please select ghosts count (from 0 to 3):");
+                string inputGhostCount = Console.ReadLine();
+                if (int.TryParse(inputGhostCount, out _ghostCount) && (_ghostCount >= 0) && (_ghostCount <= 3))
+                {
+                    isGhostCountSelected = true;
+                }
+            } while (!isGhostCountSelected);
+
+            bool isSpeedSelected = false;
+            do
+            {
+                Console.WriteLine("Please select speed (ms):");
+                string inputSpeed = Console.ReadLine();
+                if (int.TryParse(inputSpeed, out _speed))
+                {
+                    isSpeedSelected = true;
+                }
+            } while (!isGhostCountSelected);
+        }
+
         public static void StartGame()
         {
-            _speed = 500;
-            _ghostCount = 2;
             _playerCount = 1;
-            _levelId = 1;
             _gameField = new GameField();
             _gameField.InitLevel(_levelId, _playerCount, _ghostCount);
+            Console.SetWindowSize(_gameField._currentLevel._levelWidth + 1, _gameField._currentLevel._levelHeight + 4);
             PrintGameField(_gameField._currentLevel);
             bool isCurrentGameOver = false;
             ConsoleKeyInfo consoleKey = new ConsoleKeyInfo();

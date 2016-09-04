@@ -94,5 +94,16 @@ namespace PacmanGame.DataLayer
             }
             return exception;
         }
+
+        public static string[] GetAvailableLevels()
+        {
+            string[] levelsNames = new string[levelFilesLocation.Length];
+            for (int i = 0; i<levelFilesLocation.Length;i++)
+            {
+                string[] splitedPath = levelFilesLocation[i].Split(new[] {'\\', '/','.',':'});
+                levelsNames[i] = splitedPath[splitedPath.Length - 2];
+            }
+            return levelsNames;
+        }
     }
 }

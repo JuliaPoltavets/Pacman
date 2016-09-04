@@ -144,7 +144,7 @@ namespace PacmanGame.Model
             {
                 if (_currentLevel.TryChangeOccupantId(nextPosition, nextCellChar | UniqueTypeIdentifiers.Ghost))
                 {
-                    _currentLevel.TryChangeOccupantId(currentPosition, currentCellChar & ~UniqueTypeIdentifiers.Ghost); //Review (cell with problem)
+                    _currentLevel.TryChangeOccupantId(currentPosition, currentCellChar & ~UniqueTypeIdentifiers.Ghost);
                 }
                 revolveOperationResult = StepOperationResult.MoveAllowed;
             }
@@ -198,7 +198,7 @@ namespace PacmanGame.Model
 
         private void RestartLevel()
         {
-            for (int pacmanId = 0; pacmanId < _ghosts.Length; pacmanId++)
+            for (int pacmanId = 0; pacmanId < _pacmans.Length; pacmanId++)
             {
                 UniqueTypeIdentifiers currentCellOccupantIds = _currentLevel.GetCharacterTypeInCell(_pacmans[pacmanId]._position);
                 if (!_pacmans[pacmanId]._defaultPosition.Equals(_pacmans[pacmanId]._position))
