@@ -80,6 +80,10 @@ namespace PacmanGame.Model
                 {
                     _dots = _dots.RemoveDotByPosition(cellCoords);
                 }
+                if (newCharacterId == UniqueTypeIdentifiers.None)
+                {
+                    newCharacterId = UniqueTypeIdentifiers.EmptyCell;
+                }
                 _level[cellCoords._y, cellCoords._x]._characterId = newCharacterId;
                 newCharacterWasSet = true;
             }

@@ -123,32 +123,6 @@ namespace PacmanGame.Model
             return possibleNextMoveDirections[rnd.Next(0, possibleNextMoveDirections.Length - 1)];
         }
 
-        private MoveDirections[] CalculatePossibleMovePositions(Position currentPosition)
-        {
-            MoveDirections[] possibleDirections = null;
-            Position leftPosition = this.CalculateNextPosition(MoveDirections.Left, currentPosition);
-            if (_currentLevel.BelongsToLevel(leftPosition) && (_currentLevel.GetCharacterTypeInCell(leftPosition) != UniqueTypeIdentifiers.Obstacle))
-            {
-                possibleDirections = possibleDirections.Add(MoveDirections.Left);
-            }
-            Position rightPosition = this.CalculateNextPosition(MoveDirections.Right, currentPosition);
-            if (_currentLevel.BelongsToLevel(rightPosition) && (_currentLevel.GetCharacterTypeInCell(rightPosition) != UniqueTypeIdentifiers.Obstacle))
-            {
-                possibleDirections = possibleDirections.Add(MoveDirections.Right);
-            }
-            Position bottomPosition = this.CalculateNextPosition(MoveDirections.Down, currentPosition);
-            if (_currentLevel.BelongsToLevel(bottomPosition) && (_currentLevel.GetCharacterTypeInCell(bottomPosition) != UniqueTypeIdentifiers.Obstacle))
-            {
-                possibleDirections = possibleDirections.Add(MoveDirections.Down);
-            }
-            Position topPosition = this.CalculateNextPosition(MoveDirections.Up, currentPosition);
-            if (_currentLevel.BelongsToLevel(topPosition) && (_currentLevel.GetCharacterTypeInCell(topPosition) != UniqueTypeIdentifiers.Obstacle))
-            {
-                possibleDirections = possibleDirections.Add(MoveDirections.Up);
-            }
-            return possibleDirections;
-        }
-
         #endregion
 
         #region PrivateMethods
@@ -246,12 +220,6 @@ namespace PacmanGame.Model
             }
         }
 
-        private bool CheckIfLevelPassed()
-        {
-            bool allDotsAreCollected = false;
-            return allDotsAreCollected;
-        }
-
         private Position CalculateNextPosition(MoveDirections direction, Position currentPosition, int step = 1)
         {
             var nextPosition = new Position();
@@ -328,7 +296,33 @@ namespace PacmanGame.Model
                 _pacmans[activeCharId]._position = nextPosition;
             }
         }
-        
+
+        private MoveDirections[] CalculatePossibleMovePositions(Position currentPosition)
+        {
+            MoveDirections[] possibleDirections = null;
+            Position leftPosition = this.CalculateNextPosition(MoveDirections.Left, currentPosition);
+            if (_currentLevel.BelongsToLevel(leftPosition) && (_currentLevel.GetCharacterTypeInCell(leftPosition) != UniqueTypeIdentifiers.Obstacle))
+            {
+                possibleDirections = possibleDirections.Add(MoveDirections.Left);
+            }
+            Position rightPosition = this.CalculateNextPosition(MoveDirections.Right, currentPosition);
+            if (_currentLevel.BelongsToLevel(rightPosition) && (_currentLevel.GetCharacterTypeInCell(rightPosition) != UniqueTypeIdentifiers.Obstacle))
+            {
+                possibleDirections = possibleDirections.Add(MoveDirections.Right);
+            }
+            Position bottomPosition = this.CalculateNextPosition(MoveDirections.Down, currentPosition);
+            if (_currentLevel.BelongsToLevel(bottomPosition) && (_currentLevel.GetCharacterTypeInCell(bottomPosition) != UniqueTypeIdentifiers.Obstacle))
+            {
+                possibleDirections = possibleDirections.Add(MoveDirections.Down);
+            }
+            Position topPosition = this.CalculateNextPosition(MoveDirections.Up, currentPosition);
+            if (_currentLevel.BelongsToLevel(topPosition) && (_currentLevel.GetCharacterTypeInCell(topPosition) != UniqueTypeIdentifiers.Obstacle))
+            {
+                possibleDirections = possibleDirections.Add(MoveDirections.Up);
+            }
+            return possibleDirections;
+        }
+
         #endregion
     }
 } 

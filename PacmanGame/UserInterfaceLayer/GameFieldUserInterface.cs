@@ -5,21 +5,55 @@ namespace PacmanGame.UserInterfaceLayer
 {
     public class GameFieldUserInterface
     {
-        private GameField _gameField;
-        private readonly int _speed;
-        private readonly int _ghostCount;
-        private MoveDirections _defaultGhostDirection = MoveDirections.Up;
+        private static GameField _gameField;
+        private static int _speed;
+        private static int _ghostCount;
+        private static int _playerCount;
+        private static short _levelId;
+        private static MoveDirections _defaultGhostDirection = MoveDirections.Up;
 
-        public GameFieldUserInterface(short levelId, int speed, int ghostCount, int playerCount)
+        public static void StartGame()
         {
-            _speed = speed;
-            _ghostCount = ghostCount;
+            _speed = 500;
+            _ghostCount = 2;
+            _playerCount = 1;
+            _levelId = 1;
             _gameField = new GameField();
-            _gameField.InitLevel(levelId, playerCount, ghostCount);
+            _gameField.InitLevel(_levelId, _playerCount, _ghostCount);
             PrintGameField(_gameField._currentLevel);
+            bool isCurrentGameOver = false;
+            ConsoleKeyInfo consoleKey = new ConsoleKeyInfo();
+            do
+            {
+                StepOperationResult result;
+                while (Console.KeyAvailable == false)
+                {
+                    if (consoleKey.Key == ConsoleKey.LeftArrow || consoleKey.Key == ConsoleKey.RightArrow ||
+                        consoleKey.Key == ConsoleKey.UpArrow || consoleKey.Key == ConsoleKey.DownArrow)
+                    {
+                        MakeStep(out result, consoleKey.Key);
+                    }
+                    else
+                    {
+                        MakeStep(out result);
+                    }
+                    if (result == StepOperationResult.GameOver
+                        || result == StepOperationResult.PacmanWins)
+                    {
+                        isCurrentGameOver = true;
+                        break;
+                    }
+                }
+                if (!isCurrentGameOver)
+                {
+                    consoleKey = Console.ReadKey(true);
+                    MakeStep(out result, consoleKey.Key);
+                }
+            } while (consoleKey.Key != ConsoleKey.Q && !isCurrentGameOver);
+
         }
 
-        public void MakeStep(out StepOperationResult result, ConsoleKey key = ConsoleKey.LeftArrow, int playerId = 0)
+        public static void MakeStep(out StepOperationResult result, ConsoleKey key = ConsoleKey.LeftArrow, int playerId = 0)
         {
             result = StepOperationResult.None;
 
