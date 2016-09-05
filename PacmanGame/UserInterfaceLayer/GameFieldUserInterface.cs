@@ -55,7 +55,7 @@ namespace PacmanGame.UserInterfaceLayer
                 {
                     isSpeedSelected = true;
                 }
-            } while (!isGhostCountSelected);
+            } while (!isSpeedSelected);
         }
 
         public static void StartGame()
