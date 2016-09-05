@@ -8,6 +8,7 @@ namespace PacmanGame.UserInterfaceLayer
     {
         const int DEFAULT_CONSOLE_WIDTH = 80;
         const int DEFAULT_CONSOLE_HEIGHT = 25;
+        const int PLAYERS_COUNT = 1;
 
         private static GameField _gameField;
         private static int _speed;
@@ -16,7 +17,45 @@ namespace PacmanGame.UserInterfaceLayer
         private static short _levelId;
         private static MoveDirections _defaultGhostDirection = MoveDirections.Up;
 
-        public static void GetInitialSettingsFromUser()
+        public static void StartGame()
+        {
+            bool startAgain = false;
+            do
+            {
+                GetInitialSettingsFromUser();
+                GameExecutionResult gameResult = PlayALevel();
+                Console.SetWindowSize(DEFAULT_CONSOLE_WIDTH, DEFAULT_CONSOLE_HEIGHT);
+                if (gameResult == GameExecutionResult.PacmanLose)
+                {
+                    Console.Clear();
+                    Console.WriteLine("You lose!");
+                }
+                if (gameResult == GameExecutionResult.PacmanWon)
+                {
+                    Console.Clear();
+                    Console.WriteLine("You won!");
+                }
+
+                bool isValidAnswer = false;
+                do
+                {
+                    Console.WriteLine("Do you want to try again? (yes, no) ");
+                    string userAnswer = Console.ReadLine();
+                    if (userAnswer == "no")
+                    {
+                        startAgain = false;
+                        isValidAnswer = true;
+                    }
+                    if (userAnswer == "yes")
+                    {
+                        startAgain = true;
+                        isValidAnswer = true;
+                    }
+                } while (!isValidAnswer);
+            } while (startAgain);
+    }
+
+        private static void GetInitialSettingsFromUser()
         {
             Console.SetWindowSize(DEFAULT_CONSOLE_WIDTH, DEFAULT_CONSOLE_HEIGHT);
             bool isLevelSelected = false;
@@ -58,18 +97,20 @@ namespace PacmanGame.UserInterfaceLayer
             } while (!isSpeedSelected);
         }
 
-        public static void StartGame()
+        private static GameExecutionResult PlayALevel()
         {
-            _playerCount = 1;
+            _playerCount = PLAYERS_COUNT;
             _gameField = new GameField();
             _gameField.InitLevel(_levelId, _playerCount, _ghostCount);
             Console.SetWindowSize(_gameField._currentLevel._levelWidth + 1, _gameField._currentLevel._levelHeight + 4);
             PrintGameField(_gameField._currentLevel);
+
+            GameExecutionResult gameResult = GameExecutionResult.None;
+            StepOperationResult result = StepOperationResult.None;
             bool isCurrentGameOver = false;
             ConsoleKeyInfo consoleKey = new ConsoleKeyInfo();
             do
             {
-                StepOperationResult result;
                 while (Console.KeyAvailable == false)
                 {
                     if (consoleKey.Key == ConsoleKey.LeftArrow || consoleKey.Key == ConsoleKey.RightArrow ||
@@ -92,12 +133,26 @@ namespace PacmanGame.UserInterfaceLayer
                 {
                     consoleKey = Console.ReadKey(true);
                     MakeStep(out result, consoleKey.Key);
+                    if (result == StepOperationResult.GameOver
+                        || result == StepOperationResult.PacmanWins)
+                    {
+                        isCurrentGameOver = true;
+                    }
                 }
-            } while (consoleKey.Key != ConsoleKey.Q && !isCurrentGameOver);
+            } while (!isCurrentGameOver);
 
+            if (result == StepOperationResult.GameOver)
+            {
+                gameResult = GameExecutionResult.PacmanLose;
+            }
+            if (result == StepOperationResult.PacmanWins)
+            {
+                gameResult = GameExecutionResult.PacmanWon;
+            }
+            return gameResult;
         }
 
-        public static void MakeStep(out StepOperationResult result, ConsoleKey key = ConsoleKey.LeftArrow, int playerId = 0)
+        private static void MakeStep(out StepOperationResult result, ConsoleKey key = ConsoleKey.LeftArrow, int playerId = 0)
         {
             result = StepOperationResult.None;
 
@@ -149,7 +204,6 @@ namespace PacmanGame.UserInterfaceLayer
             System.Threading.Thread.Sleep(_speed);
 
         }
-
 
         public static void PrintGameField(Level gameField)
         {

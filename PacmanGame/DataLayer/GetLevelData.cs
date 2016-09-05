@@ -7,11 +7,12 @@ namespace PacmanGame.DataLayer
     {
         private static string[] levelFilesLocation = new[]
         {
-            @"C:\Education\pacman\PacmanGame\Levels\1_level.txt",
-            @"C:\Education\pacman\PacmanGame\Levels\2_level.txt"
+            @"Levels/1_level.txt",
+            @"Levels/2_level.txt",
+            @"Levels/3_level.txt"
         };
-        const char _obstacleSymb = '1';
-        const char _dotSymb = '0';
+        const char OBSTACLE_SYMBOL = '1';
+        const char DOT_SYMBOL = '0';
 
         /// <summary>
         /// Method returns the obstacles position for the particular level
@@ -20,12 +21,12 @@ namespace PacmanGame.DataLayer
         /// <returns></returns>
         public static Position[] InitObstaclesPositions(short levelId)
         {
-            return GetPositionsOfGameObjects(_obstacleSymb, levelId);
+            return GetPositionsOfGameObjects(OBSTACLE_SYMBOL, levelId);
         }
 
         public static Position[] InitDotsPositions(short levelId)
         {
-            return GetPositionsOfGameObjects(_dotSymb, levelId);
+            return GetPositionsOfGameObjects(DOT_SYMBOL, levelId);
         }
 
         public static bool GetLevelSize(short levelId, out int levelHeight, out int levelWidth )
