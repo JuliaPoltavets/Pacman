@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,7 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataLayer\DataLayerOperationResult.cs" />
-    <Compile Include="DataLayer\GetLevelData.cs" />
+    <Compile Include="DataLayer\FileLevelDataProvider.cs" />
+    <Compile Include="DataLayer\LevelDataProvider.cs" />
+    <Compile Include="DataLayer\LevelDataProviderFactory.cs" />
     <Compile Include="Model\Cell.cs" />
     <Compile Include="Model\Dot.cs" />
     <Compile Include="Model\ExceptionTypes.cs" />
@@ -67,7 +70,21 @@
     <Compile Include="Utilities\StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="LevelSchemas\1_level.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LevelSchemas\2_level.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LevelSchemas\3_level.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -62,7 +62,7 @@ namespace PacmanGame.UserInterfaceLayer
             do
             {
                 Console.WriteLine("Please select level:");
-                string[] levelsList = GetLevelData.GetAvailableLevels();
+                string[] levelsList = FileLevelDataProvider.GetAvailableLevels();
                 for (int levelIndex = 0; levelIndex < levelsList.Length; levelIndex++)
                 {
                     Console.WriteLine(levelIndex + ": " + levelsList[levelIndex]);
@@ -205,7 +205,7 @@ namespace PacmanGame.UserInterfaceLayer
 
         }
 
-        public static void PrintGameField(Level gameField)
+        public static void PrintGameField(LevelSchema gameField)
         {
             Console.Clear();
             for (int i = 0; i < gameField._levelHeight; i++)
@@ -219,7 +219,7 @@ namespace PacmanGame.UserInterfaceLayer
             }
         }
 
-        public static void PrintFieldLine(Level gameField, int lineIndex)
+        public static void PrintFieldLine(LevelSchema gameField, int lineIndex)
         {
             for (int j = 0; j < gameField._levelWidth; j++)
             {
@@ -229,7 +229,7 @@ namespace PacmanGame.UserInterfaceLayer
             }
         }
 
-        public static void PrintSetOfCells(Level gameField, Position[] setOfCells)
+        public static void PrintSetOfCells(LevelSchema gameField, Position[] setOfCells)
         {
             foreach (Position coord in setOfCells)
             {

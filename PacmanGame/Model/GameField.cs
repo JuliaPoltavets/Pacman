@@ -18,7 +18,7 @@ namespace PacmanGame.Model
         /// <summary>
         /// height of the playground
         /// </summary>
-        public Level _currentLevel;
+        public LevelSchema _currentLevel;
 
         #region PublicMethods
 
@@ -29,7 +29,7 @@ namespace PacmanGame.Model
         /// <param name="levelId"></param>
         public void InitLevel(short levelId, int playersCount, int ghostsCount)
         {
-            Level level = new Level();
+            LevelSchema level = new LevelSchema();
             level.InitLevel(levelId);
             _pacmans = new Pacman[playersCount];
             for (int i = 0; i < playersCount; i++)

@@ -4,8 +4,10 @@
     {
         None,
         Successful,
-        FileWasNotFound,
+        LevelWasNotFound,
         LevelIsEmpty,
-        LevelFormatIsIncorrect
+        LevelFormatIsIncorrect,
+        NoAvailableLevels,
+        LevelWasNotInitialized
     }
 }

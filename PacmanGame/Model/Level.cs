@@ -1,17 +1,31 @@
 ﻿using System;
+using PacmanGame.DataLayer;
 using PacmanGame.Utilities;
 
 namespace PacmanGame.Model
 {
-    public struct Level
+    public class LevelSchema
     {
         private Dot[] _dots;
         private Obstacle[] _obstacles;
         private static Random _rnd = new Random();
 
-        public Cell[,] _level;
-        public int _levelHeight;
-        public int _levelWidth;
+        private LevelDataProvider _levelDataProvider;
+        private short _levelId;
+
+        public LevelSchema() : this(1)
+        {
+
+        }
+
+        public LevelSchema(short levelId)
+        {
+            _levelDataProvider = LevelDataProviderFactory.GetLevelDataProvider();
+            _levelId = levelId;
+        }
+
+        public int LevelHeight { get; }
+        public int LevelWidth { get; }
 
         public void InitLevel(short levelId)
         {
@@ -101,7 +115,7 @@ namespace PacmanGame.Model
         /// <param name="levelId">unique level identifier for data layaer</param>
         private void InitLevelSize(short levelId, out int heigth, out int width)
         {
-            PacmanGame.DataLayer.GetLevelData.GetLevelSize(levelId, out heigth, out width);
+            PacmanGame.DataLayer.FileLevelDataProvider.GetLevelSize(levelId, out heigth, out width);
         }
 
         /// <summary>
@@ -112,7 +126,8 @@ namespace PacmanGame.Model
         /// <param name="levelId"></param>
         private void InitDotsData(short levelId)
         {
-            Position[] dotPositions = PacmanGame.DataLayer.GetLevelData.InitDotsPositions(levelId);
+            Position[] dotPositions;
+            DataLayerOperationResult operationResult = PacmanGame.DataLayer.FileLevelDataProvider.GetDotsPositions(levelId,out dotPositions);
             _dots = new Dot[dotPositions.Length];
             for (int i = 0; i < _dots.Length; i++)
             {
@@ -133,7 +148,8 @@ namespace PacmanGame.Model
         /// <param name="levelId">id of the level</param>
         private void InitObstaclesData(short levelId)
         {
-            Position[] getObstaclesPositions = PacmanGame.DataLayer.GetLevelData.InitObstaclesPositions(levelId);
+            Position[] getObstaclesPositions = null;
+            DataLayerOperationResult operationResult = PacmanGame.DataLayer.FileLevelDataProvider.GetObstaclesPositions(levelId, out getObstaclesPositions);
             _obstacles = new Obstacle[getObstaclesPositions.Length];
             for (int i = 0; i < _obstacles.Length; i++)
             {
